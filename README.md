@@ -13,6 +13,7 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 * ### Cadastro de ambientes
 [x] Cadastro de ambientes
+
 [ ] Compartilhamento de ambientes
 
 * ### Cadastro de Títulos Financeiros.
