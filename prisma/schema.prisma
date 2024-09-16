@@ -9,10 +9,10 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  name      String
+  name      String?
   email     String   @unique
   password  String
-  token     String
+  token     String?
   createdAt DateTime @default(now()) @map("created_at")
   active    Boolean  @default(true)
 
@@ -26,7 +26,7 @@ model Environment {
   name      String
   userOwner String   @map("user_owner")
   createdAt DateTime @default(now()) @map("created_at")
-  active    Boolean
+  active    Boolean  @default(true)
 
   user User @relation(fields: [userOwner], references: [id])
 

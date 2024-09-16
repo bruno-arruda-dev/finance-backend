@@ -52,6 +52,8 @@ import { prisma } from "../../lib/prisma";
  */
 
 export async function getUserService(email?: string, id?: string) {
+    email = email?.toLocaleLowerCase()
+
     if (email) {
         const user = await prisma.user.findUnique({
             where: {

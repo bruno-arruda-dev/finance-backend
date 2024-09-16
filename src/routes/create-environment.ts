@@ -1,65 +1,47 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, RouteGenericInterface } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
+import { createEnvironmentController } from "../controllers/create-environment-controller";
 
 const createEnvironmentSchema = {
     schema: {
         body: z.object({
             name: z.string().min(4),
         }),
-        params: z.object({
-            user: z.string().uuid()
-        }),
         response: {
             201: z.object({
-                id: z.number(),
-                name: z.string(),
-                userOwner: z.string().uuid(),
-                // createdAt: z.date(),
-                active: z.boolean()
-            })
+                error: z.boolean(),
+                message: z.string(),
+                environment: z.object({
+                    id: z.number(),
+                    userOwner: z.string(),
+                    name: z.string().nullable(),
+                    createdAt: z.date(),
+                    active: z.boolean(),
+                })
+            }),
+            401: z.object({
+                error: z.boolean(),
+                message: z.string(),
+            }),
+            409: z.object({
+                error: z.boolean(),
+                message: z.string(),
+            }),
         }
     }
+};
+
+type TCreateEnvironment = z.infer<typeof createEnvironmentSchema.schema.body>;
+
+export interface ICreateEnvironment extends RouteGenericInterface {
+    Body: TCreateEnvironment;
 }
 
 export async function createEnvironment(app: FastifyInstance) {
     app
-    .withTypeProvider<ZodTypeProvider>()
-    .post('/environments/:user', createEnvironmentSchema, async (req, res) => {
-
-        const { user } = req.params;
-        const { name } = req.body
-
-        res.status(201).send({id: 1, name: 'Bruno Arruda', userOwner: '5ca65eed-e07a-4502-aabf-fbf132a0294a', active: true})
-
-    })
+        .withTypeProvider<ZodTypeProvider>()
+        .post<{ Body: TCreateEnvironment }>('/environments', createEnvironmentSchema, async (req, res) => {
+            await createEnvironmentController(req, res);
+        });
 }
-
-// const createuserSchema = {
-//     schema: {
-//         body: z.object({
-//             name: z.string().min(4).nullable(),
-//             email: z.string().email(),
-//             password: z.string().min(8),
-//             passwordConfirmation: z.string().min(8),
-//         }),
-//         response: {
-//             201: z.object({
-//                 id: z.string().uuid(),
-//                 name: z.string().min(4).nullable(),
-//                 email: z.string().email(),
-//                 token: z.string()
-//             })
-//         }
-//     }
-// }
-
-// export async function createUser(app: FastifyInstance) {
-//     app
-//         .withTypeProvider<ZodTypeProvider>()
-//         .post('/users', createuserSchema, async (req, res) => {
-//             const { name, email, password, passwordConfirmation } = req.body;
-
-//             return res.status(201).send({ id: '5ca65eed-e07a-4502-aabf-fbf132a0294a', name: 'Bruno', email: "bruno.arrm@gmail.com", token: 'asd' })
-//         });
-// }

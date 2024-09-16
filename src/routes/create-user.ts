@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify"
+import { FastifyInstance, RouteGenericInterface } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { createUserController } from "../controllers/create-user-controller";
@@ -6,7 +6,7 @@ import { createUserController } from "../controllers/create-user-controller";
 const createUserSchema = {
     schema: {
         body: z.object({
-            name: z.string().min(4, {message: 'Nome precisa ter no mínimo 4 caracteres'}).nullable(),
+            name: z.string().nullable().optional(),
             email: z.string().email({message: 'Email precisa ser um email válido'}),
             password: z.string({message: 'Senha precisa ter no mínimo 8 caracteres'}).min(8, {message: 'Senha precisa ter no mínimo 8 caracteres'}),
             passwordConfirmation: z.string().min(8),
@@ -20,7 +20,7 @@ const createUserSchema = {
                 message: z.string(),
                 user: z.object({
                     id: z.string().uuid(),
-                    name: z.string().min(4).nullable(),
+                    name: z.string().nullable().optional(),
                     email: z.string().email(),
                     token: z.string(),
                 }),
