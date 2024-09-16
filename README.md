@@ -7,11 +7,15 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 ## Requisitos Funcionais
 * ### Usuários
-[ ] Cadastro de usuários.
+[x] Cadastro de usuários.
 
 [ ] Login de usuários.
 
-* ### Cadastro de Títulos Financeiras.
+* ### Cadastro de ambientes
+[x] Cadastro de ambientes
+[ ] Compartilhamento de ambientes
+
+* ### Cadastro de Títulos Financeiros.
 
 [ ] Cadastro  de títulos financeiros.
 
