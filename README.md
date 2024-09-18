@@ -5,6 +5,10 @@
 
 Este projeto é um backend desenvolvido em Node.js para uma aplicação web de controle financeiro. A aplicação permite que usuários gerenciem suas movimentações financeiras de maneira segura, permitindo compartilhamento com outros usuários.
 
+## Documentação
+
+* Após o passo 3 da instalação do projeto, já será possível acessar http://http://localhost:3333/docs/ para verificar a documentação interativa com Swagger.
+
 ## Requisitos Funcionais
 * ### Usuários
 [x] Cadastro de usuários.
@@ -32,7 +36,7 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 * ### Documentação interativa
 
-[ ] Swagger.
+[x] Swagger.
 
 ## Instalação
 
