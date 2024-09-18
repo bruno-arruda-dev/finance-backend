@@ -22,6 +22,7 @@ app.register(fastifySwagger, {
 
 app.register(fastifySwaggerUi, {
     routePrefix: '/docs',
+    prefix: "/docs"
 })
 
 app.setValidatorCompiler(validatorCompiler);
