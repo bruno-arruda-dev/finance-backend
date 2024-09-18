@@ -4,6 +4,7 @@ import { createUser } from './routes/create-user';
 import { createEnvironment } from './routes/create-environment';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import { userLogin } from './routes/users-login';
 
 const app = fastify();
 
@@ -30,6 +31,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.register(createUser)
 app.register(createEnvironment)
+app.register(userLogin)
 
 
 app
