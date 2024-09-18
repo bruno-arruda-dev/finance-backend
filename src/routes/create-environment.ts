@@ -5,6 +5,8 @@ import { createEnvironmentController } from "../controllers/create-environment-c
 
 const createEnvironmentSchema = {
     schema: {
+        summary: 'Registrar um ambiente',
+        tags: ['Ambientes'],
         body: z.object({
             name: z.string().min(4),
         }),

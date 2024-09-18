@@ -5,6 +5,8 @@ import { createUserController } from "../controllers/create-user-controller";
 
 const createUserSchema = {
     schema: {
+        summary: 'Registrar um usuário',
+        tags: ['Usuários'],
         body: z.object({
             name: z.string().nullable().optional(),
             email: z.string().email({message: 'Email precisa ser um email válido'}),
