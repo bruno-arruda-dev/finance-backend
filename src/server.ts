@@ -5,6 +5,7 @@ import { createEnvironment } from './routes/create-environment';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { userLogin } from './routes/users-login';
+import { authMiddleware } from './middlewares/auth-middleware';
 
 const app = fastify();
 
@@ -30,7 +31,7 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 app.register(createUser)
-app.register(createEnvironment)
+app.register(createEnvironment, {preHandler: authMiddleware});
 app.register(userLogin)
 
 

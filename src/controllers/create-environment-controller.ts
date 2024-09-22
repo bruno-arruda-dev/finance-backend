@@ -1,14 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ICreateEnvironment } from "../routes/create-environment";
 import { createEnvironmentService } from "../services/environment-services/create-environment-service";
-import { getToken } from "../utils/get-token";
 import { getEnvironmentService } from "../services/environment-services/get-environment-service";
 
 export async function createEnvironmentController(req: FastifyRequest<ICreateEnvironment>, res: FastifyReply) {
-    const { name, } = req.body
-    const token = getToken(req.headers.authorization)
-    if (!token) return res.status(401).send({error: true, message: 'Token de autorização inválido'});
-    const id = token?.payload.id;
+    const { name } = req.body;
+    const id = req.User?.id;
 
     const environments = await getEnvironmentService(id, undefined, name);
 

@@ -65,7 +65,7 @@ export function getToken(authorization?: string): res | null {
             token, payload: {id, name, email, password}
         };
     } catch (error: any) {
-        console.error(error)
-        return error;
+        console.error(error);
+        throw error;
     }
 }

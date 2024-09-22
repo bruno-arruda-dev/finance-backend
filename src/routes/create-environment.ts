@@ -10,6 +10,12 @@ const createEnvironmentSchema = {
         body: z.object({
             name: z.string().min(4),
         }),
+        user: z.object({
+            id: z.string(),
+            name: z.string(),
+            email: z.string(),
+            password: z.string(),
+        }),
         response: {
             201: z.object({
                 error: z.boolean(),
