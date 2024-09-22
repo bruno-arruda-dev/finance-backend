@@ -12,14 +12,13 @@ const userLoginSchema = {
             password: z.string({message: 'Senha precisa ter no mínimo 8 caracteres'}).min(8, {message: 'Senha precisa ter no mínimo 8 caracteres'}),
         }),
         response: {
-            200: z.object({
-                error: z.boolean(),
-                message: z.string(),
-            }),
             201: z.object({
                 error: z.boolean(),
                 message: z.string(),
                 user: z.object({
+                    id: z.string(),
+                    name: z.string().nullable(),
+                    email: z.string(),
                     token: z.string(),
                 })
             })

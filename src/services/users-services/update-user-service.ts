@@ -46,7 +46,7 @@ import { prisma } from "../../lib/prisma";
  * - A função `prisma.user.update` requer que o campo `id` seja válido e exista no banco de dados.
  */
 
-export async function updateUserService(id: string, name: string | null, email?: string, password?: string, token?: string) {
+export async function updateUserService(id: string, name?: string, email?: string, password?: string, token?: string) {
     email = email?.toLocaleLowerCase();
     name = name ? name.toLowerCase() : name;
     
