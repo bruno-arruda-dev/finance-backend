@@ -8,8 +8,8 @@ const userLoginSchema = {
         summary: 'Login de usuário',
         tags: ['Usuários'],
         body: z.object({
-            email: z.string().email({message: 'Email precisa ser um email válido'}),
-            password: z.string({message: 'Senha precisa ter no mínimo 8 caracteres'}).min(8, {message: 'Senha precisa ter no mínimo 8 caracteres'}),
+            email: z.string({ message: 'Email precisa ser um email válido' }).email({ message: 'Email precisa ser um email válido' }),
+            password: z.string({ message: 'Senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Senha precisa ter no mínimo 8 caracteres' }),
         }),
         response: {
             201: z.object({
@@ -34,8 +34,8 @@ export interface IUserLogin extends RouteGenericInterface {
 
 export async function userLogin(app: FastifyInstance) {
     app
-    .withTypeProvider<ZodTypeProvider>()
-    .post<{Body: TUserLogin}>('/login', userLoginSchema, async (req, res) => {
-        await userLoginController(req, res)
-    })
+        .withTypeProvider<ZodTypeProvider>()
+        .post<{ Body: TUserLogin }>('/login', userLoginSchema, async (req, res) => {
+            await userLoginController(req, res)
+        })
 }

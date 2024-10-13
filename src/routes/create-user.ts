@@ -9,13 +9,14 @@ const createUserSchema = {
         tags: ['Usuários'],
         body: z.object({
             name: z.string().nullable().optional(),
-            email: z.string().email({message: 'Email precisa ser um email válido'}),
-            password: z.string({message: 'Senha precisa ter no mínimo 8 caracteres'}).min(8, {message: 'Senha precisa ter no mínimo 8 caracteres'}),
-            passwordConfirmation: z.string().min(8),
-        }).refine((data) => data.password === data.passwordConfirmation, {
-            message: "Senha e confirmação de senha são diferentes",
-            path: ["passwordConfirmation"],
-        }),
+            email: z.string().email({ message: 'Email precisa ser um email válido' }),
+            password: z.string({ message: 'Senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Senha precisa ter no mínimo 8 caracteres' }),
+            passwordConfirmation: z.string({ message: 'Confirmação de senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Confirmação de senha precisa ter no mínimo 8 caracteres' }),
+        })
+            .refine((data) => data.password === data.passwordConfirmation, {
+                message: "Senha e confirmação de senha são diferentes",
+                path: ["passwordConfirmation"],
+            }),
         response: {
             201: z.object({
                 error: z.boolean(),
@@ -26,7 +27,9 @@ const createUserSchema = {
                     email: z.string().email(),
                     token: z.string(),
                 }),
-            })
+            }),
+
+
         }
     }
 }
