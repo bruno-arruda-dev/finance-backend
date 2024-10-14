@@ -9,8 +9,7 @@ export async function createEnvironmentController(req: FastifyRequest<ICreateEnv
 
     const environments = await getEnvironmentService(id, undefined, name);
 
-    console.log(environments)
-    if (environments.length > 0) return res.status(409).send({error: true, message: "Já existe um ambiente registrado com este nome"})
+    if (environments.length > 0) return res.status(409).send({ error: true, message: "Já existe um ambiente registrado com este nome" })
 
     const environment = await createEnvironmentService(id, name);
 
