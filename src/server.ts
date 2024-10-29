@@ -8,6 +8,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import { userLogin } from './routes/users-login';
 import { authMiddleware } from './middlewares/auth-middleware';
 import { customErrorHandler } from './errors/error-handler';
+import { updateUser } from './routes/user-update';
 
 const app = fastify();
 
@@ -29,19 +30,20 @@ app.register(fastifySwagger, {
         }
     },
     transform: jsonSchemaTransform
-})
+});
 
 app.register(fastifySwaggerUi, {
     routePrefix: '/docs',
     prefix: "/docs"
-})
+});
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(createUser)
-app.register(createEnvironment, { preHandler: authMiddleware });
-app.register(userLogin)
+app.register(createUser);
+app.register(createEnvironment);
+app.register(userLogin);
+app.register(updateUser);
 
 
 app

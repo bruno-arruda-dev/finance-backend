@@ -13,7 +13,7 @@ type TUser = z.infer<typeof userSchema>;
 
 declare module 'fastify' {
   interface FastifyRequest {
-    User: TUser; 
+    User: TUser;
   }
 }
 
@@ -21,6 +21,7 @@ export async function authMiddleware(
   req: FastifyRequest,
   res: FastifyReply
 ) {
+  console.log('entrou no middleware')
   try {
     const authHeader = getToken(req.headers.authorization);
     if (authHeader) {

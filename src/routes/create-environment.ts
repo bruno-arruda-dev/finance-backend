@@ -2,6 +2,7 @@ import { FastifyInstance, RouteGenericInterface } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { createEnvironmentController } from "../controllers/create-environment-controller";
+import { authMiddleware } from "../middlewares/auth-middleware";
 
 const createEnvironmentSchema = {
     schema: {
@@ -49,7 +50,7 @@ export interface ICreateEnvironment extends RouteGenericInterface {
 export async function createEnvironment(app: FastifyInstance) {
     app
         .withTypeProvider<ZodTypeProvider>()
-        .post<{ Body: TCreateEnvironment }>('/environments', createEnvironmentSchema, async (req, res) => {
+        .post<{ Body: TCreateEnvironment }>('/environments', { preHandler: authMiddleware, schema: createEnvironmentSchema.schema }, async (req, res) => {
             await createEnvironmentController(req, res);
         });
 }
