@@ -1,14 +1,11 @@
-import fastify from 'fastify';
-import cors from '@fastify/cors'
-import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
-import { createUser } from './routes/create-user';
-import { createEnvironment } from './routes/create-environment';
+import cors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import { userLogin } from './routes/users-login';
-import { authMiddleware } from './middlewares/auth-middleware';
+import fastify from 'fastify';
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { customErrorHandler } from './errors/error-handler';
-import { updateUser } from './routes/user-update';
+import { createEnvironment } from './routes/create-environment';
+import { UserRoutes } from './routes/user-routes';
 
 const app = fastify();
 
@@ -40,10 +37,11 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(createUser);
+app.register(UserRoutes.getUser);
+app.register(UserRoutes.createUser);
+app.register(UserRoutes.userLogin);
+app.register(UserRoutes.updateUser);
 app.register(createEnvironment);
-app.register(userLogin);
-app.register(updateUser);
 
 
 app
