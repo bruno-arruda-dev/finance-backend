@@ -13,7 +13,7 @@ model User {
   email     String   @unique
   password  String
   token     String?
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt String   @map("created_at")
   active    Boolean  @default(true)
 
   Environment Environment[]
@@ -25,7 +25,7 @@ model Environment {
   id        Int      @id @default(autoincrement())
   name      String
   userOwner String   @map("user_owner")
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt String   @map("created_at")
   active    Boolean  @default(true)
 
   user User @relation(fields: [userOwner], references: [id])

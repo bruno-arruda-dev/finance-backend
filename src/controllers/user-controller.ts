@@ -74,7 +74,7 @@ class UserController {
         const hash = newPassword ? await generatePasswordHash(newPassword) : undefined;
         const newToken = jwtGenerate({ id: databaseUser.id, name: name ? name : null, email, password: hash ? hash : user?.payload.password! })
 
-        const updatedUser = user?.payload.id ? await UserService.updateUserService(user?.payload.id, name ? name : undefined, email ? email : undefined, hash ? hash : user?.payload.password!, newToken) : null
+        const updatedUser = user?.payload.id ? await UserService.updateUserService(user?.payload.id, name ? name : null, email ? email : undefined, hash ? hash : user?.payload.password!, newToken) : null
 
         return res.status(200).send({
             error: false, message: 'Os dados do usuário foram atualizados', user: updatedUser

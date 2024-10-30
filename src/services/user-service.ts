@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { prisma } from "../lib/prisma";
 import { jwtGenerate } from "../utils/jwt-generate";
 
@@ -28,13 +29,13 @@ class UserService {
         if (!email && !id) console.error('Nenhum parâmetro de busca de usuário foi enviado')
     }
 
-    static async updateUserService(id: string, name?: string, email?: string, password?: string, token?: string) {
+    static async updateUserService(id: string, name?: string | null, email?: string, password?: string, token?: string) {
         email = email?.toLocaleLowerCase();
         name = name ? name.toLowerCase() : name;
 
         const user = await prisma.user.update({
             data: {
-                name, email, password, token
+                name: name ? name : null, email, password, token
             },
             where: {
                 id
@@ -47,10 +48,13 @@ class UserService {
     static async createUserService(email: string, password: string, name: string | null,) {
         email = email?.toLocaleLowerCase();
         name = name ? name.toLowerCase() : name;
+        const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
+
+        console.log(createdAt)
 
         const user = await prisma.user.create({
             data: {
-                name, email, password
+                name, email, password, createdAt
             }
         })
 

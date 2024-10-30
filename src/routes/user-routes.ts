@@ -77,7 +77,7 @@ const getUserSchema = {
                     name: z.string().nullable().optional(),
                     email: z.string().email(),
                     token: z.string(),
-                    createdAt: z.date(),
+                    createdAt: z.string(),
                     active: z.boolean()
                 }),
             }),
@@ -122,7 +122,7 @@ const putUserUpdateSchema = {
                     name: z.string().nullable().optional(),
                     email: z.string().email(),
                     token: z.string(),
-                    createdAt: z.date(),
+                    createdAt: z.string(),
                     active: z.boolean(),
                 })
             }),
