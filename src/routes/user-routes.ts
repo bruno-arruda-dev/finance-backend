@@ -93,7 +93,7 @@ const putUserUpdateSchema = {
         tags: ['Usuários'],
         body: z.object({
             name: z.string().nullable().optional(),
-            email: z.string().email({ message: 'Email precisa ser um email válido' }),
+            email: z.string().email({ message: 'Email precisa ser um email válido' }).nullable().optional(),
             password: z.string({ message: 'Senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Senha precisa ter no mínimo 8 caracteres' }).nullable().optional(),
             newPassword: z.string({ message: 'Nova senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Nova senha precisa ter no mínimo 8 caracteres' }).nullable().optional(),
             newPasswordConfirmation: z.string({ message: 'Confirmação de nova senha precisa ter no mínimo 8 caracteres' }).min(8, { message: 'Confirmação de nova senha precisa ter no mínimo 8 caracteres' }).nullable().optional(),
@@ -138,19 +138,19 @@ export interface IPutUserUpdate extends RouteGenericInterface {
 }
 
 class UserRoutes {
-    static async getUser(app: FastifyInstance) {
+    static async get(app: FastifyInstance) {
         app
             .withTypeProvider<ZodTypeProvider>()
             .get('/users', { preHandler: authMiddleware, schema: getUserSchema.schema }, async (req, res) => {
-                await UserController.getUserController(req, res)
+                await UserController.get(req, res)
             });
     }
 
-    static async createUser(app: FastifyInstance) {
+    static async post(app: FastifyInstance) {
         app
             .withTypeProvider<ZodTypeProvider>()
             .post<{ Body: TCreateUser }>('/users', createUserSchema, async (req, res) => {
-                await UserController.createUserController(req, res)
+                await UserController.post(req, res)
             });
     }
 
@@ -158,15 +158,15 @@ class UserRoutes {
         app
             .withTypeProvider<ZodTypeProvider>()
             .post<{ Body: TUserLogin }>('/login', userLoginSchema, async (req, res) => {
-                await UserController.userLoginController(req, res)
+                await UserController.userLogin(req, res)
             })
     }
 
-    static async updateUser(app: FastifyInstance) {
+    static async put(app: FastifyInstance) {
         app
             .withTypeProvider<ZodTypeProvider>()
             .put<{ Body: TPutUserUpdate }>('/users', { preHandler: authMiddleware, schema: putUserUpdateSchema.schema }, async (req, res) => {
-                await UserController.updateUserController(req, res)
+                await UserController.put(req, res)
             })
     }
 

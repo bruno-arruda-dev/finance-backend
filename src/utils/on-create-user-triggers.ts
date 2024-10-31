@@ -1,9 +1,10 @@
-import { createEnvironmentService } from "../services/environment-services/create-environment-service";
+import { EnvironmentService } from "../services/environment-service";
+
 
 export async function onCreateUserTriggers(userId: string) {
 
-    await createEnvironmentService(userId, 'minha casa')
-    await createEnvironmentService(userId, 'minha empresa')
+    await EnvironmentService.post(userId, 'minha casa')
+    await EnvironmentService.post(userId, 'minha empresa')
 
     return;
 }

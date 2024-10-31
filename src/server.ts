@@ -4,8 +4,8 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastify from 'fastify';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { customErrorHandler } from './errors/error-handler';
-import { createEnvironment } from './routes/create-environment';
 import { UserRoutes } from './routes/user-routes';
+import { EnvironmentRoutes } from './routes/environment-routes';
 
 const app = fastify();
 
@@ -37,12 +37,11 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(UserRoutes.getUser);
-app.register(UserRoutes.createUser);
+app.register(UserRoutes.get);
+app.register(UserRoutes.post);
 app.register(UserRoutes.userLogin);
-app.register(UserRoutes.updateUser);
-app.register(createEnvironment);
-
+app.register(UserRoutes.put);
+app.register(EnvironmentRoutes.post);
 
 app
     .listen({ port: 3333 })

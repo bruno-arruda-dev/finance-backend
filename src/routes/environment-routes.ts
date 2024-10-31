@@ -1,8 +1,8 @@
 import { FastifyInstance, RouteGenericInterface } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z from "zod";
-import { createEnvironmentController } from "../controllers/create-environment-controller";
 import { authMiddleware } from "../middlewares/auth-middleware";
+import { EnvironmentController } from "../controllers/environment-controller";
+import z from "zod";
 
 const createEnvironmentSchema = {
     schema: {
@@ -47,10 +47,14 @@ export interface ICreateEnvironment extends RouteGenericInterface {
     Body: TCreateEnvironment;
 }
 
-export async function createEnvironment(app: FastifyInstance) {
-    app
-        .withTypeProvider<ZodTypeProvider>()
-        .post<{ Body: TCreateEnvironment }>('/environments', { preHandler: authMiddleware, schema: createEnvironmentSchema.schema }, async (req, res) => {
-            await createEnvironmentController(req, res);
-        });
+class EnvironmentRoutes {
+    static async post(app: FastifyInstance) {
+        app
+            .withTypeProvider<ZodTypeProvider>()
+            .post<{ Body: TCreateEnvironment }>('/environments', { preHandler: authMiddleware, schema: createEnvironmentSchema.schema }, async (req, res) => {
+                await EnvironmentController.post(req, res);
+            });
+    }
 }
+
+export { EnvironmentRoutes }

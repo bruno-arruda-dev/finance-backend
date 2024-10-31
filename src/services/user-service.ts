@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma";
 import { jwtGenerate } from "../utils/jwt-generate";
 
 class UserService {
-    static async getUserService(email?: string, id?: string) {
+    static async get(email?: string, id?: string) {
         email = email?.toLocaleLowerCase()
 
         if (email) {
@@ -29,7 +29,7 @@ class UserService {
         if (!email && !id) console.error('Nenhum parâmetro de busca de usuário foi enviado')
     }
 
-    static async updateUserService(id: string, name?: string | null, email?: string, password?: string, token?: string) {
+    static async put(id: string, name?: string | null, email?: string, password?: string, token?: string) {
         email = email?.toLocaleLowerCase();
         name = name ? name.toLowerCase() : name;
 
@@ -45,7 +45,7 @@ class UserService {
         return user;
     }
 
-    static async createUserService(email: string, password: string, name: string | null,) {
+    static async post(email: string, password: string, name: string | null,) {
         email = email?.toLocaleLowerCase();
         name = name ? name.toLowerCase() : name;
         const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -60,7 +60,7 @@ class UserService {
 
         const token = jwtGenerate({ id: user.id, name: user.name, email: user.email, password: user.password });
 
-        const updatedUser = await UserService.updateUserService(user.id, user.name ? user.name : undefined, user.email, user.password, token)
+        const updatedUser = await UserService.put(user.id, user.name ? user.name : undefined, user.email, user.password, token)
 
         return updatedUser;
     }
