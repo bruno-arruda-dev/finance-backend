@@ -4,7 +4,8 @@
   "description": "Este projeto é um backend desenvolvido em Node.js para uma aplicação web de controle financeiro.",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch --env-file .env src/server.ts"
+    "dev": "tsx watch --env-file .env src/server.ts",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
