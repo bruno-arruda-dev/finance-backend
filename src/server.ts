@@ -12,6 +12,7 @@ const app = fastify();
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.register(cors, {
     origin: (origin, callback) => {
+
         console.log("Origin received:", origin);
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
@@ -23,8 +24,20 @@ app.register(cors, {
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    preflightContinue: true,
-})
+    preflight: true,
+    strictPreflight: true,
+    optionsSuccessStatus: 204,
+    preflightContinue: false,
+});
+
+
+// app.options('*', (req, reply) => {
+//     reply
+//         .header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS')
+//         .header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+//         .code(204)
+//         .send();
+// });
 
 app.setErrorHandler(customErrorHandler);
 
