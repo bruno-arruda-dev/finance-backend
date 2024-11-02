@@ -1,4 +1,3 @@
-import cors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastify from 'fastify';
@@ -6,38 +5,14 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fast
 import { customErrorHandler } from './errors/error-handler';
 import { UserRoutes } from './routes/user-routes';
 import { EnvironmentRoutes } from './routes/environment-routes';
+import fastifyCors from '@fastify/cors';
 
 const app = fastify();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
-app.register(cors, {
-    origin: (origin, callback) => {
-
-        console.log("Origin received:", origin);
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'), false);
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    preflight: true,
-    strictPreflight: true,
-    optionsSuccessStatus: 204,
-    preflightContinue: false,
+app.register(fastifyCors, {
+    origin: allowedOrigins,
 });
-
-
-// app.options('*', (req, reply) => {
-//     reply
-//         .header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS')
-//         .header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-//         .code(204)
-//         .send();
-// });
 
 app.setErrorHandler(customErrorHandler);
 
