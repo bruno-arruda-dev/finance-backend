@@ -12,14 +12,15 @@ const app = fastify();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.register(cors, {
-    origin: (origin, cb) => {
-        console.log(origin)
-        if (origin && allowedOrigins.includes(origin)) {
-            cb(null, true);
-            return;
-        }
-        cb(new Error("Sem permissão para acessar o recurso"), false)
-    },
+    // origin: (origin, cb) => {
+    //     console.log(origin)
+    //     if (origin && allowedOrigins.includes(origin)) {
+    //         cb(null, true);
+    //         return;
+    //     }
+    //     cb(new Error("Sem permissão para acessar o recurso"), false)
+    // },
+    origin: '*',
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
