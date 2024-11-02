@@ -11,14 +11,13 @@ const app = fastify();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.register(cors, {
-    origin: '*',
-    // origin: (origin, callback) => {
-    //     if (!origin || allowedOrigins.includes(origin)) {
-    //         callback(null, true);
-    //     } else {
-    //         callback(new Error('Not allowed by CORS'), false);
-    //     }
-    // },
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'), false);
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Type', 'Authorization'],
