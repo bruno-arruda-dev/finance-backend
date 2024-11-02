@@ -56,8 +56,10 @@ app.register(UserRoutes.userLogin);
 app.register(UserRoutes.put);
 app.register(EnvironmentRoutes.post);
 
+const port = process.env.PORT ?? 3333;
+
 app
-    .listen({ port: 3333 })
+    .listen({ port: Number(port) })
     .then(() => {
         console.log('Servidor Finance no ar!');
     });
