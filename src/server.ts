@@ -20,7 +20,7 @@ app.register(cors, {
     //     }
     //     cb(new Error("Sem permissão para acessar o recurso"), false)
     // },
-    origin: '*',
+    origin: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
