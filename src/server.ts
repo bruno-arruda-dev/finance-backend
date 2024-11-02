@@ -6,12 +6,14 @@ import { customErrorHandler } from './errors/error-handler';
 import { UserRoutes } from './routes/user-routes';
 import { EnvironmentRoutes } from './routes/environment-routes';
 import cors from '@fastify/cors';
+import { HealthRoutes } from './routes/health-route';
 
 const app = fastify();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.register(cors, {
     origin: (origin, cb) => {
+        console.log(origin)
         if (origin && allowedOrigins.includes(origin)) {
             cb(null, true);
             return;
@@ -46,6 +48,7 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+app.register(HealthRoutes.get);
 app.register(UserRoutes.get);
 app.register(UserRoutes.post);
 app.register(UserRoutes.userLogin);
