@@ -9,14 +9,23 @@ import { EnvironmentRoutes } from './routes/environment-routes';
 
 const app = fastify();
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',');
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
+
 app.register(cors, {
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'), false);
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
+    preflightContinue: true,
 })
+
 
 app.setErrorHandler(customErrorHandler);
 
