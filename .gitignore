@@ -135,3 +135,5 @@ prisma/dev.db
 # VSCode configs
 .vscode
 .vercel
+
+dist/*
