@@ -9,7 +9,8 @@ import { EnvironmentRoutes } from './routes/environment-routes';
 
 const app = fastify();
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+const allowedOrigins = process.env.ALLOWED_ORIGINS;
+console.log(allowedOrigins)
 app.register(cors, {
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
