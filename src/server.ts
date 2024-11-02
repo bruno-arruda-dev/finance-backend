@@ -5,23 +5,20 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fast
 import { customErrorHandler } from './errors/error-handler';
 import { UserRoutes } from './routes/user-routes';
 import { EnvironmentRoutes } from './routes/environment-routes';
-import fastifyCors from '@fastify/cors';
+import cors from '@fastify/cors';
 
 const app = fastify();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
-console.log(allowedOrigins)
-app.register(fastifyCors, {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    preflight: true,
-    strictPreflight: true,
-    optionsSuccessStatus: 204,
-    preflightContinue: false,
-
+app.register(cors, {
+    origin: (origin, cb) => {
+        if (origin && allowedOrigins.includes(origin)) {
+            cb(null, true);
+            return;
+        }
+        cb(new Error("Sem permissão para acessar o recurso"), false)
+    },
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
 });
 
 app.setErrorHandler(customErrorHandler);
