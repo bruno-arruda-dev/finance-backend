@@ -12,6 +12,7 @@ const app = fastify();
 const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [];
 app.register(cors, {
     origin: (origin, cb) => {
+        console.log(origin)
         if (origin && allowedOrigins.includes(origin)) {
             cb(null, true);
             return;
