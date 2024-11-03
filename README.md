@@ -19,8 +19,16 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 [x] Atualização dos dados do usuário.
 
+[ ] Cadastro e login com google.
+
 * ### Cadastro de ambientes
 [x] Cadastro de ambientes.
+
+[x] Captura de ambientes.
+
+[x] Atualização de ambiente.
+
+[x] Delete lógico de ambiente.
 
 [ ] Compartilhamento de ambientes.
 

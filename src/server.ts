@@ -49,11 +49,17 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+// ROUTES
 app.register(UserRoutes.get);
 app.register(UserRoutes.post);
 app.register(UserRoutes.userLogin);
 app.register(UserRoutes.put);
+
+app.register(EnvironmentRoutes.get);
 app.register(EnvironmentRoutes.post);
+app.register(EnvironmentRoutes.put);
+app.register(EnvironmentRoutes.delete);
+
 app.register(HealthRoutes.get);
 
 const port = process.env.PORT ?? 3333;
