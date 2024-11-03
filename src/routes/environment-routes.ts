@@ -125,7 +125,7 @@ export interface IUpdateEnvironment extends RouteGenericInterface {
 
 const deleteEnvironmentSchema = {
     schema: {
-        summary: 'Atualizar um ambiente',
+        summary: 'Delete lógico de um ambiente',
         tags: ['Ambientes'],
         body: z.object({
             id: z.number({ message: 'ID de ambiente é obrigatório' }),
