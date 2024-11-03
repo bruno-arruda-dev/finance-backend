@@ -7,18 +7,26 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 ## Documentação
 
+[Clique aqui e acesse a documentação interativa com Swagger](https://finance-backend-7fxw.onrender.com/docs)
+
 * Após o passo 3 da instalação do projeto, já será possível acessar http://http://localhost:3333/docs/ para verificar a documentação interativa com Swagger.
 
 ## Requisitos Funcionais
 * ### Usuários
 [x] Cadastro de usuários.
 
-[ ] Login de usuários.
+[x] Login de usuários.
+
+[x] Atualização dos dados do usuário.
 
 * ### Cadastro de ambientes
-[x] Cadastro de ambientes
+[x] Cadastro de ambientes.
 
-[ ] Compartilhamento de ambientes
+[ ] Compartilhamento de ambientes.
+
+* ### Cadastro de carteiras
+[x] Cadastro de carteiras.
+
 
 * ### Cadastro de Títulos Financeiros.
 
@@ -42,9 +50,11 @@ Este projeto é um backend desenvolvido em Node.js para uma aplicação web de c
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
-`DATABASE_URL` //Caminho para o banco de dados. Defina "file:./dev.db"
+`DATABASE_URL` //Caminho para o banco de dados. Se preferir rodar localmente defina "file:./dev.db"
 
 `JWT_SECRET_KEY` // SecretKey utilizada para geração do JsonWebToken
+
+`ALLOWED_ORIGINS` // Origens permitidas pelo CORS (string separadas por vírgula. Ex.: 'localhost:3000,https://brunoarrudadev.com')
 
 **1** Instale as dependências
 
