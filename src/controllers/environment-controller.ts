@@ -10,7 +10,6 @@ class EnvironmentController {
 
 
         const environments = await EnvironmentService.get(tempUser.payload.id);
-        console.log(environments)
 
         if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] })
 
