@@ -8,6 +8,9 @@ const getEnvironmentSchema = {
     schema: {
         summary: 'Capturar os ambientes cadastrados para o usuário',
         tags: ['Ambientes'],
+        querystring: z.object({
+            id: z.string().optional(),
+        }),
         response: {
             200: z.object({
                 error: z.boolean(),
@@ -39,7 +42,8 @@ const getEnvironmentSchema = {
             400: z.any(),
         }
     }
-}
+};
+
 
 const createEnvironmentSchema = {
     schema: {
@@ -169,9 +173,9 @@ class EnvironmentRoutes {
     static async get(app: FastifyInstance) {
         app
             .withTypeProvider<ZodTypeProvider>()
-            .get('/environments', { preHandler: authMiddleware, schema: getEnvironmentSchema.schema }, async (req, res) => {
-                await EnvironmentController.get(req, res)
-            })
+            .get<{ Querystring: { id: string } }>('/environments', { preHandler: authMiddleware, schema: getEnvironmentSchema.schema }, async (req, res) => {
+                await EnvironmentController.get(req, res);
+            });
     }
 
     static async post(app: FastifyInstance) {

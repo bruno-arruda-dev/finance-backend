@@ -3,19 +3,23 @@ import { ICreateEnvironment, IDeleteEnvironment, IUpdateEnvironment } from "../r
 import { EnvironmentService } from "../services/environment-service";
 import { getToken } from "../utils/get-token";
 
+type TParams = {
+    id?: string,
+}
+
 class EnvironmentController {
-    static async get(req: FastifyRequest, res: FastifyReply) {
+    static async get(req: FastifyRequest<{ Querystring: TParams }>, res: FastifyReply) {
         const tempUser = getToken(req.headers.authorization);
+        const { id } = req.query;
         if (!tempUser) return res.status(400).send({ error: true, message: 'Usuário não encontrado' });
 
+        const environments = await EnvironmentService.get(tempUser.payload.id, id ? Number(id) : undefined);
 
-        const environments = await EnvironmentService.get(tempUser.payload.id);
+        if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] });
 
-        if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] })
-
-        const environmentWithPermitions = environments.map((e: any) => { return { ...e, permitions: ['editar', 'compartilhar', 'deletar'] } })
-        console.log(environmentWithPermitions)
-        return res.status(200).send({ error: false, message: 'Foram encontrados ambientes para o usuário', environments: environmentWithPermitions })
+        const environmentWithPermitions = environments.map((e: any) => ({ ...e, permitions: ['editar', 'compartilhar', 'deletar'] }));
+        console.log(environmentWithPermitions);
+        return res.status(200).send({ error: false, message: 'Foram encontrados ambientes para o usuário', environments: environmentWithPermitions });
     }
 
 
