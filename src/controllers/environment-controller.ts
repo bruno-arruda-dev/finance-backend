@@ -18,7 +18,6 @@ class EnvironmentController {
         if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] });
 
         const environmentWithPermitions = environments.map((e: any) => ({ ...e, permitions: ['editar', 'compartilhar', 'deletar'] }));
-        console.log(environmentWithPermitions);
         return res.status(200).send({ error: false, message: 'Foram encontrados ambientes para o usuário', environments: environmentWithPermitions });
     }
 
