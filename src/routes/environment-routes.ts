@@ -19,6 +19,7 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
+                        permitions: z.array(z.string())
                     })
                 )
             }),
@@ -31,6 +32,7 @@ const getEnvironmentSchema = {
                     name: z.string(),
                     createdAt: z.string(),
                     active: z.boolean(),
+                    permitions: z.array(z.string())
                 })).optional()
             }),
             401: z.any(),
