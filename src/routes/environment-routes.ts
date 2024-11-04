@@ -24,7 +24,7 @@ const getEnvironmentSchema = {
                 )
             }),
             204: z.object({
-                error: z.string(),
+                error: z.boolean(),
                 message: z.string(),
                 environments: z.array(z.object({
                     id: z.number(),
