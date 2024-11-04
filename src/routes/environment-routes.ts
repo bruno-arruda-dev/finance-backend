@@ -19,7 +19,7 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
-                        permitions: z.array(z.string())
+                        permitions: z.array(z.enum(['editar', 'compartilhar', 'deletar'])).optional()
                     })
                 )
             }),
