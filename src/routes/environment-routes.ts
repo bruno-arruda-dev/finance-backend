@@ -94,7 +94,7 @@ const updateEnvironmentSchema = {
         tags: ['Ambientes'],
         body: z.object({
             id: z.number({ message: 'ID de ambiente é obrigatório' }),
-            name: z.string({ message: 'ID de ambiente é obrigatório' }),
+            name: z.string({ message: 'Nome de ambiente é obrigatório' }),
         }),
         response: {
             200: z.object({
