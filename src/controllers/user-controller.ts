@@ -45,9 +45,10 @@ class UserController {
 
         if (!passwordMatch) res.status(401).send({ error: true, message: 'Senha incorreta' });
 
-        const updatedToken = jwtGenerate({ id: user.id, name: user.name, email: user.email, password: user.password });
+        console.log('controller: ' + user.name)
+        const updatedToken = jwtGenerate({ id: user?.id, name: user?.name, email: user?.email, password: user?.password });
 
-        const updatedUser = await UserService.put(user.id, undefined, undefined, undefined, updatedToken);
+        const updatedUser = await UserService.put(user.id, user.name ? user.name : undefined, undefined, undefined, updatedToken);
 
         return res.status(201).send({
             error: false,
@@ -74,7 +75,7 @@ class UserController {
         const hash = newPassword ? await generatePasswordHash(newPassword) : null;
         const newToken = jwtGenerate({ id: databaseUser.id, name: name ? name : null, email: email ? email : user?.payload.email!, password: hash ? hash : user?.payload.password! })
 
-        const updatedUser = user?.payload.id ? await UserService.put(user?.payload.id, name ? name : null, email ? email : undefined, hash ? hash : user?.payload.password!, newToken) : null
+        const updatedUser = user?.payload.id ? await UserService.put(user?.payload.id, name ? name : undefined, email ? email : undefined, hash ? hash : user?.payload.password!, newToken) : null
 
         return res.status(200).send({
             error: false, message: 'Os dados do usuário foram atualizados', user: updatedUser

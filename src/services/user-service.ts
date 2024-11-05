@@ -29,14 +29,17 @@ class UserService {
         if (!email && !id) console.error('Nenhum parâmetro de busca de usuário foi enviado')
     }
 
-    static async put(id: string, name?: string | null, email?: string, password?: string, token?: string) {
-        email = email?.toLocaleLowerCase();
-        name = name ? name.toLowerCase() : name;
+    static async put(id: string, name?: string, email?: string, password?: string, token?: string, active?: boolean) {
+        console.log('service: ' + name)
+        const data: { name?: string | null, email?: string, password?: string, token?: string, active?: boolean } = {}
+        data.name = name ? name : null;
+        if (email) data.email = email;
+        if (password) data.password = password;
+        if (token) data.token = token;
+        if (active) data.active = active;
 
         const user = await prisma.user.update({
-            data: {
-                name: name ? name : null, email, password, token
-            },
+            data,
             where: {
                 id
             }
@@ -49,8 +52,6 @@ class UserService {
         email = email?.toLocaleLowerCase();
         name = name ? name.toLowerCase() : name;
         const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss')
-
-        console.log(createdAt)
 
         const user = await prisma.user.create({
             data: {
