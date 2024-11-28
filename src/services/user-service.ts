@@ -30,7 +30,6 @@ class UserService {
     }
 
     static async put(id: string, name?: string, email?: string, password?: string, token?: string, active?: boolean) {
-        console.log('service: ' + name)
         const data: { name?: string | null, email?: string, password?: string, token?: string, active?: boolean } = {}
         data.name = name ? name : null;
         if (email) data.email = email;
