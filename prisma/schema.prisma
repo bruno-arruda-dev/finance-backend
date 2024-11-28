@@ -3,32 +3,52 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   name      String?
-  email     String   @unique
+  email     String  @unique
   password  String
   token     String?
-  createdAt String   @map("created_at")
-  active    Boolean  @default(true)
+  createdAt String  @map("created_at")
+  active    Boolean @default(true)
 
-  Environment Environment[]
+  Environment               Environment[]
+  EnvironmentShareAsOwner   EnvironmentShare[] @relation("Owner")
+  EnvironmentShareAsPartner EnvironmentShare[] @relation("Partner")
 
   @@map("users")
 }
 
 model Environment {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   name      String
-  userOwner String   @map("user_owner")
-  createdAt String   @map("created_at")
-  active    Boolean  @default(true)
+  userOwner String  @map("user_owner")
+  createdAt String  @map("created_at")
+  active    Boolean @default(true)
 
   user User @relation(fields: [userOwner], references: [id])
 
+  EnvironmentShare EnvironmentShare[]
+
   @@map("environments")
+}
+
+model EnvironmentShare {
+  id          Int      @id @default(autoincrement())
+  createdAt   String   @map("created_at")
+  active      Boolean  @default(true)
+  accepted    Boolean?
+  userOwner   String   @map("user_owner")
+  userPartner String   @map("user_partner")
+  environment Int
+
+  userOwnerRel   User        @relation("Owner", fields: [userOwner], references: [id])
+  userPartnerRel User        @relation("Partner", fields: [userPartner], references: [id])
+  environmentRel Environment @relation(fields: [environment], references: [id])
+
+  @@map("environment_share")
 }
