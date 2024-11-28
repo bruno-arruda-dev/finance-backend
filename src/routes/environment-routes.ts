@@ -12,6 +12,7 @@ const getEnvironmentSchema = {
             id: z.string().optional(),
         }),
         response: {
+            // 200: z.any(),
             200: z.object({
                 error: z.boolean(),
                 message: z.string(),
@@ -22,21 +23,34 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
-                        permitions: z.array(z.enum(['editar', 'compartilhar', 'deletar'])).optional()
+                        permitions: z.array(z.enum(['editar', 'compartilhar', 'deletar'])).optional(),
+                        share: z.array(
+                            z.object({
+                                id: z.number(),
+                                createdAt: z.string(),
+                                accepted: z.boolean().nullable(),
+                                active: z.boolean(),
+                                userPartner: z.string(),
+                                userPartnerEmail: z.string(),
+                                userPartnerName: z.string().nullable(),
+                            })
+                        )
                     })
                 )
             }),
             204: z.object({
                 error: z.boolean(),
                 message: z.string(),
-                environments: z.array(z.object({
-                    id: z.number(),
-                    userOwner: z.string(),
-                    name: z.string(),
-                    createdAt: z.string(),
-                    active: z.boolean(),
-                    permitions: z.array(z.string())
-                })).optional()
+                environments: z.array(
+                    z.object({
+                        id: z.number(),
+                        userOwner: z.string(),
+                        name: z.string(),
+                        createdAt: z.string(),
+                        active: z.boolean(),
+                        permitions: z.array(z.string())
+                    })
+                ).optional()
             }),
             401: z.any(),
             400: z.any(),
