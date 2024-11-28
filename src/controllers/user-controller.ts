@@ -45,7 +45,6 @@ class UserController {
 
         if (!passwordMatch) res.status(401).send({ error: true, message: 'Senha incorreta' });
 
-        console.log('controller: ' + user.name)
         const updatedToken = jwtGenerate({ id: user?.id, name: user?.name, email: user?.email, password: user?.password });
 
         const updatedUser = await UserService.put(user.id, user.name ? user.name : undefined, undefined, undefined, updatedToken);
