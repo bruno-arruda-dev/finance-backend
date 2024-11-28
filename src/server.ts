@@ -67,5 +67,5 @@ const port = process.env.PORT ?? 3333;
 app
     .listen({ port: Number(port), host: '0.0.0.0' })
     .then(() => {
-        console.log('Servidor Finance no ar!');
+        console.log(`Servidor Finance escutando na porta ${port}`);
     });
