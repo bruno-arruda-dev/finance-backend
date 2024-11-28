@@ -36,7 +36,7 @@ const getEnvironmentSchema = {
                                 userPartnerEmail: z.string(),
                                 userPartnerName: z.string().nullable(),
                             })
-                        )
+                        ).optional()
                     })
                 )
             }),

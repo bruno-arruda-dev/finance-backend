@@ -46,21 +46,6 @@ class EnvironmentService {
             }
         })
 
-
-        const flatEnvironmentsSharedWithUserOwner = environmentsSharedWithUserOwner.map(e => {
-            return {
-                "id": e.environmentRel.id,
-                "name": e.environmentRel.name,
-                "userOwner": e.environmentRel.userOwner,
-                "userOwnerEmail": e.userOwnerRel.email,
-                "userOwnerName": e.userOwnerRel.name,
-                "createdAt": e.environmentRel.createdAt,
-                "active": e.active,
-                share: []
-            }
-        })
-
-        console.log(flatEnvironmentsSharedWithUserOwner)
         const flatEnvironments = environments.map(e => {
             return {
                 "id": e.id,
@@ -82,6 +67,18 @@ class EnvironmentService {
                     }
                 })
 
+            }
+        })
+
+        const flatEnvironmentsSharedWithUserOwner = environmentsSharedWithUserOwner.map(e => {
+            return {
+                "id": e.environmentRel.id,
+                "name": e.environmentRel.name,
+                "userOwner": e.environmentRel.userOwner,
+                "userOwnerEmail": e.userOwnerRel.email,
+                "userOwnerName": e.userOwnerRel.name,
+                "createdAt": e.environmentRel.createdAt,
+                "active": e.active,
             }
         })
 
