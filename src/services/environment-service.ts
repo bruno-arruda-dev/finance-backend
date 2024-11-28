@@ -13,6 +13,7 @@ class EnvironmentService {
                 active: true,
             },
             include: {
+                user: true,
                 EnvironmentShare: {
                     where: {
                         userOwner,
@@ -26,14 +27,47 @@ class EnvironmentService {
                         userPartnerRel: true
                     }
                 }
+
             }
         })
 
+        const environmentsSharedWithUserOwner = await prisma.environmentShare.findMany({
+            where: {
+                userPartner: userOwner,
+                active: true,
+                OR: [
+                    { accepted: null },
+                    { accepted: true }
+                ]
+            },
+            include: {
+                userOwnerRel: true,
+                environmentRel: true,
+            }
+        })
+
+
+        const flatEnvironmentsSharedWithUserOwner = environmentsSharedWithUserOwner.map(e => {
+            return {
+                "id": e.environmentRel.id,
+                "name": e.environmentRel.name,
+                "userOwner": e.environmentRel.userOwner,
+                "userOwnerEmail": e.userOwnerRel.email,
+                "userOwnerName": e.userOwnerRel.name,
+                "createdAt": e.environmentRel.createdAt,
+                "active": e.active,
+                share: []
+            }
+        })
+
+        console.log(flatEnvironmentsSharedWithUserOwner)
         const flatEnvironments = environments.map(e => {
             return {
                 "id": e.id,
                 "name": e.name,
                 "userOwner": e.userOwner,
+                "userOwnerEmail": e.user.email,
+                "userOwnerName": e.user.name,
                 "createdAt": e.createdAt,
                 "active": e.active,
                 share: e.EnvironmentShare.map(s => {
@@ -51,7 +85,9 @@ class EnvironmentService {
             }
         })
 
-        return flatEnvironments;
+        const environmentsRes = [...flatEnvironments, ...flatEnvironmentsSharedWithUserOwner].sort((a, b) => b.id - a.id)
+
+        return environmentsRes;
     }
 
     static async post(id: string, name: string) {

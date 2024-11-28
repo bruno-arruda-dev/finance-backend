@@ -20,6 +20,8 @@ const getEnvironmentSchema = {
                     z.object({
                         id: z.number(),
                         userOwner: z.string(),
+                        userOwnerEmail: z.string(),
+                        userOwnerName: z.string().nullable(),
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
