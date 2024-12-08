@@ -15,7 +15,7 @@ app.register(cors, {
     origin: (origin, cb) => {
         console.log(allowedOrigins)
         console.log(origin)
-        console.log(allowedOrigins.includes(origin))
+        if (origin) console.log(allowedOrigins.includes(origin))
         if (origin && allowedOrigins.includes(origin)) {
             cb(null, true);
             return;
