@@ -47,9 +47,13 @@ class EnvironmentController {
         const userEnvironment: any = environments.filter((e: any) => e.id === environmentId);
         if (environments.length === 0 || !userEnvironment[0]) return res.status(404).send({ error: true, message: 'Ambiente não encontrado' });
         if (environments.some((e: any) => e.name === newEnvironmentName)) return res.status(409).send({ error: true, message: 'Já existe um ambiente registrado com este nome' })
+
         const newEnvironment = {
-            ...userEnvironment[0],
-            name: newEnvironmentName
+            id: userEnvironment[0].id,
+            name: newEnvironmentName,
+            userOwner: userEnvironment[0].userOwner,
+            createdAt: userEnvironment[0].createdAt,
+            active: true
         }
 
         const updatedEnvironment = await EnvironmentService.put(newEnvironment);
@@ -68,7 +72,10 @@ class EnvironmentController {
         const userEnvironment: any = environments.filter((e: any) => e.id === environmentId);
         if (environments.length === 0 || !userEnvironment[0]) return res.status(404).send({ error: true, message: 'Ambiente não encontrado' });
         const newEnvironment = {
-            ...userEnvironment[0],
+            id: userEnvironment[0].id,
+            name: userEnvironment[0].name,
+            userOwner: userEnvironment[0].userOwner,
+            createdAt: userEnvironment[0].createdAt,
             active: false
         }
 

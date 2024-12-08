@@ -62,10 +62,9 @@ export function getToken(authorization?: string): res | null {
         const { id, name, email, password } = decoded
 
         return {
-            token, payload: {id, name, email, password}
+            token, payload: { id, name, email, password }
         };
     } catch (error: any) {
-        console.error(error);
         throw error;
     }
 }

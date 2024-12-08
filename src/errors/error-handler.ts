@@ -13,8 +13,6 @@ export function customErrorHandler(
             };
         });
 
-        console.log(formattedErrors)
-
         reply.status(400).send({
             error: true,
             message: formattedErrors

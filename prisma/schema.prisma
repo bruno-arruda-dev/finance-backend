@@ -45,6 +45,7 @@ model EnvironmentShare {
   userOwner   String   @map("user_owner")
   userPartner String   @map("user_partner")
   environment Int
+  permitions  String
 
   userOwnerRel   User        @relation("Owner", fields: [userOwner], references: [id])
   userPartnerRel User        @relation("Partner", fields: [userPartner], references: [id])
