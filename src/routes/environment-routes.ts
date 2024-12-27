@@ -111,6 +111,7 @@ const updateEnvironmentSchema = {
         body: z.object({
             id: z.number({ message: 'ID de ambiente é obrigatório' }),
             name: z.string({ message: 'Nome de ambiente é obrigatório' }),
+            active: z.boolean()
         }),
         response: {
             200: z.object({

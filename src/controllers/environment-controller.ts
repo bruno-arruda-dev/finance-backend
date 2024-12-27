@@ -38,6 +38,7 @@ class EnvironmentController {
     static async put(req: FastifyRequest<IUpdateEnvironment>, res: FastifyReply) {
         const environmentId = req.body.id;
         const newEnvironmentName = req.body.name.toLowerCase().trim();
+        const active = req.body.active;
         if (!environmentId || !newEnvironmentName) return res.status(400).send({ error: true, message: 'Id ou nome de ambiente não foi enviado' });
 
         const user = getToken(req.headers.authorization);
@@ -46,14 +47,15 @@ class EnvironmentController {
         const environments = await EnvironmentService.get(user!.payload.id);
         const userEnvironment: any = environments.filter((e: any) => e.id === environmentId);
         if (environments.length === 0 || !userEnvironment[0]) return res.status(404).send({ error: true, message: 'Ambiente não encontrado' });
-        if (environments.some((e: any) => e.name === newEnvironmentName)) return res.status(409).send({ error: true, message: 'Já existe um ambiente registrado com este nome' })
+
+        if (environments.some((e: any) => e.name === newEnvironmentName && e.id !== environmentId)) return res.status(409).send({ error: true, message: 'Já existe um ambiente registrado com este nome' })
 
         const newEnvironment = {
             id: userEnvironment[0].id,
             name: newEnvironmentName,
             userOwner: userEnvironment[0].userOwner,
             createdAt: userEnvironment[0].createdAt,
-            active: true
+            active
         }
 
         const updatedEnvironment = await EnvironmentService.put(newEnvironment);
