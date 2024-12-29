@@ -12,7 +12,6 @@ const getEnvironmentSchema = {
             id: z.string().optional(),
         }),
         response: {
-            // 200: z.any(),
             200: z.object({
                 error: z.boolean(),
                 message: z.string(),
@@ -25,7 +24,7 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
-                        permitions: z.array(z.enum(['editar', 'compartilhar', 'deletar'])).optional(),
+                        permitions: z.any(),
                         share: z.array(
                             z.object({
                                 id: z.number(),
@@ -50,7 +49,7 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
-                        permitions: z.array(z.string())
+                        permitions: z.any()
                     })
                 ).optional()
             }),

@@ -63,7 +63,7 @@ class EnvironmentService {
                         active: s.active,
                         userPartner: s.userPartner,
                         userPartnerEmail: s.userPartnerRel.email,
-                        userPartnerName: s.userPartnerRel.name
+                        userPartnerName: s.userPartnerRel.name,
                     }
                 })
 
@@ -79,6 +79,7 @@ class EnvironmentService {
                 "userOwnerName": e.userOwnerRel.name,
                 "createdAt": e.environmentRel.createdAt,
                 "active": e.active,
+                "permitions": e.permitions,
             }
         })
 
