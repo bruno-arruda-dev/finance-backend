@@ -19,10 +19,10 @@ class EnvironmentService {
                     where: {
                         userOwner,
                         active: true,
-                        OR: [
-                            { accepted: null },
-                            { accepted: true }
-                        ]
+                        // OR: [
+                        //     { accepted: null },
+                        //     { accepted: true }
+                        // ]
                     },
                     include: {
                         userPartnerRel: true
