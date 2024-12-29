@@ -5,6 +5,7 @@ class EnvironmentService {
     static async get(userOwner: string, id?: number, name?: string) {
         name = name ? name.toLocaleLowerCase() : name;
 
+
         const environments = await prisma.environment.findMany({
             where: {
                 userOwner,
@@ -83,8 +84,8 @@ class EnvironmentService {
             }
         })
 
-        const environmentsRes = [...flatEnvironments, ...flatEnvironmentsSharedWithUserOwner].sort((a, b) => b.id - a.id)
-
+        let environmentsRes = [...flatEnvironments, ...flatEnvironmentsSharedWithUserOwner].sort((a, b) => b.id - a.id)
+        if (id) environmentsRes = environmentsRes.filter(e => e.id === id)
         return environmentsRes;
     }
 
