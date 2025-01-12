@@ -7,6 +7,7 @@ import { UserRoutes } from './routes/user-routes';
 import { EnvironmentRoutes } from './routes/environment-routes';
 import cors from '@fastify/cors';
 import { HealthRoutes } from './routes/health-route';
+import { EnvironmentShareRoutes } from './routes/environment-share-routes';
 
 const app = fastify();
 
@@ -57,6 +58,8 @@ app.register(EnvironmentRoutes.get);
 app.register(EnvironmentRoutes.post);
 app.register(EnvironmentRoutes.put);
 app.register(EnvironmentRoutes.delete);
+
+app.register(EnvironmentShareRoutes.post);
 
 app.register(HealthRoutes.get);
 

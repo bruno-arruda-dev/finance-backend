@@ -16,10 +16,35 @@ class EnvironmentController {
         const environments = await EnvironmentService.get(tempUser.payload.id, id ? Number(id) : undefined);
 
         if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] });
+        const environmentWithPermitions = environments.map((e: any) => {
+            function convertPermitionsInToArray(permitions: string) {
+                return permitions.split(',');
+            }
 
-        const environmentWithPermitions = environments.map((e: any) => e.userOwner === tempUser.payload.id
-            ? { ...e, permitions: ['editar', 'compartilhar', 'deletar'] }
-            : { ...e, permitions: e.permitions.split(',') });
+            if (e.userOwner === tempUser.payload.id) {
+                if (e.share) {
+                    const newShare: any[] = []
+                    e.share.forEach((s: any) => {
+                        newShare.push({ ...s, permitions: convertPermitionsInToArray(s.permitions) })
+                    })
+
+                    e.share = newShare;
+                }
+                return { ...e, permitions: ['editar', 'compartilhar', 'deletar'] }
+
+            } else {
+                if (e.share) {
+                    const newShare: any[] = []
+                    e.share.forEach((s: any) => {
+                        newShare.push({ ...s, permitions: convertPermitionsInToArray(s.permitions) })
+                    })
+
+                    e.share = newShare;
+                }
+                return { ...e, permitions: e.permitions.split(',') }
+            }
+        }
+        );
 
         return res.status(200).send({ error: false, message: 'Foram encontrados ambientes para o usuário', environments: environmentWithPermitions });
     }

@@ -2,9 +2,8 @@ import dayjs from "dayjs";
 import { prisma } from "../lib/prisma";
 
 class EnvironmentService {
-    static async get(userOwner: string, id?: number, name?: string) {
+    static async get(userOwner?: string, id?: number, name?: string) {
         name = name ? name.toLocaleLowerCase() : name;
-
 
         const environments = await prisma.environment.findMany({
             where: {
@@ -19,10 +18,6 @@ class EnvironmentService {
                     where: {
                         userOwner,
                         active: true,
-                        // OR: [
-                        //     { accepted: null },
-                        //     { accepted: true }
-                        // ]
                     },
                     include: {
                         userPartnerRel: true
@@ -65,9 +60,9 @@ class EnvironmentService {
                         userPartner: s.userPartner,
                         userPartnerEmail: s.userPartnerRel.email,
                         userPartnerName: s.userPartnerRel.name,
+                        permitions: s.permitions
                     }
                 })
-
             }
         })
 

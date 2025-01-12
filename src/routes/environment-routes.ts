@@ -24,7 +24,7 @@ const getEnvironmentSchema = {
                         name: z.string(),
                         createdAt: z.string(),
                         active: z.boolean(),
-                        permitions: z.any(),
+                        permitions: z.array(z.string()),
                         share: z.array(
                             z.object({
                                 id: z.number(),
@@ -34,6 +34,7 @@ const getEnvironmentSchema = {
                                 userPartner: z.string(),
                                 userPartnerEmail: z.string(),
                                 userPartnerName: z.string().nullable(),
+                                permitions: z.array(z.string()),
                             })
                         ).optional()
                     })
