@@ -16,12 +16,33 @@ class EnvironmentShareController {
     static async get(req: FastifyRequest<{ Querystring: TParams }>, res: FastifyReply) {
         const user = getToken(req.headers.authorization);
         const { id } = req.query
-        const environment = await EnvironmentService.get(undefined, Number(id))
-        if (!environment) return res.status(404).send({ error: true, message: 'Ambiente nao encontrado' })
-        console.log(environment)
+        const environment: any = await EnvironmentService.get(undefined, Number(id))
+        if (environment.length === 0) return res.status(404).send({ error: true, message: 'Ambiente não encontrado' })
         if (!user) return res.status(400).send({ error: true, message: 'Usuário não encontrado' });
-        if (user.payload.id === environment[0].userOwner) return res.status(200).send({ error: false, message: 'Compartilhamentos do ambiente', environment: { permitions: ["editar", "compartilhar", "deletar"], ...environment[0] } })
-        // TODOS: Após devolver o objeto correto, continuar quando o usuário não é proprietário do ambiente
+        if (user.payload.id === environment[0].userOwner) {
+
+            return res.status(200).send({
+                error: false,
+                message: 'Compartilhamentos do ambiente',
+                environment: { permitions: ["editar", "compartilhar", "deletar"], ...environment[0] }
+            })
+        } else {
+            const validShare = environment[0].share.filter((share: any) => share.userPartner === user.payload.id)
+            if (validShare.length === 0) return res.status(404).send({ error: true, message: 'Compartilhamento não encontrado' })
+
+            const share = validShare[0].permitions.includes("compartilhar") ? environment[0].share.filter((share: any) => share.userPartner !== user.payload.id)
+                : []
+
+            return res.status(200).send({
+                error: false,
+                message: 'Compartilhamentos do ambiente',
+                environment: {
+                    ...environment[0],
+                    permitions: validShare[0].permitions,
+                    share,
+                }
+            })
+        }
     }
 
     static async post(req: FastifyRequest<IPostEnvironmentShare>, res: FastifyReply) {

@@ -8,7 +8,7 @@ export const EnvironmentSchema = z.object({
     id: z.number(),
     userOwner: z.string(),
     userOwnerEmail: z.string(),
-    userOwnerName: z.string().nullable(),
+    userOwnerName: z.string().nullable().optional(),
     name: z.string(),
     createdAt: z.string(),
     active: z.boolean(),
@@ -17,11 +17,11 @@ export const EnvironmentSchema = z.object({
         z.object({
             id: z.number(),
             createdAt: z.string(),
-            accepted: z.boolean().nullable(),
+            accepted: z.boolean().nullable().optional(),
             active: z.boolean(),
             userPartner: z.string(),
             userPartnerEmail: z.string(),
-            userPartnerName: z.string().nullable(),
+            userPartnerName: z.string().nullable().optional(),
             permitions: z.array(z.string()),
         })
     ).optional()

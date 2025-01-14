@@ -13,9 +13,11 @@ const getEnvironmentShareSchema = {
             id: z.string(),
         }),
         response: {
-            // TODO: Melhorar tipagem de permitions
-            // 200: EnvironmentSchema,
-            200: z.any(),
+            200: z.object({
+                error: z.boolean(),
+                message: z.string(),
+                environment: EnvironmentSchema
+            }),
             401: z.object({
                 error: z.boolean(),
                 message: z.string(),
