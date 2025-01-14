@@ -4,6 +4,31 @@ import { authMiddleware } from "../middlewares/auth-middleware";
 import { EnvironmentController } from "../controllers/environment-controller";
 import z from "zod";
 
+export const EnvironmentSchema = z.object({
+    id: z.number(),
+    userOwner: z.string(),
+    userOwnerEmail: z.string(),
+    userOwnerName: z.string().nullable(),
+    name: z.string(),
+    createdAt: z.string(),
+    active: z.boolean(),
+    permitions: z.array(z.string()),
+    share: z.array(
+        z.object({
+            id: z.number(),
+            createdAt: z.string(),
+            accepted: z.boolean().nullable(),
+            active: z.boolean(),
+            userPartner: z.string(),
+            userPartnerEmail: z.string(),
+            userPartnerName: z.string().nullable(),
+            permitions: z.array(z.string()),
+        })
+    ).optional()
+})
+
+export type TEnvironment = z.infer<typeof EnvironmentSchema>
+
 const getEnvironmentSchema = {
     schema: {
         summary: 'Capturar os ambientes cadastrados para o usuário',
@@ -15,30 +40,7 @@ const getEnvironmentSchema = {
             200: z.object({
                 error: z.boolean(),
                 message: z.string(),
-                environments: z.array(
-                    z.object({
-                        id: z.number(),
-                        userOwner: z.string(),
-                        userOwnerEmail: z.string(),
-                        userOwnerName: z.string().nullable(),
-                        name: z.string(),
-                        createdAt: z.string(),
-                        active: z.boolean(),
-                        permitions: z.array(z.string()),
-                        share: z.array(
-                            z.object({
-                                id: z.number(),
-                                createdAt: z.string(),
-                                accepted: z.boolean().nullable(),
-                                active: z.boolean(),
-                                userPartner: z.string(),
-                                userPartnerEmail: z.string(),
-                                userPartnerName: z.string().nullable(),
-                                permitions: z.array(z.string()),
-                            })
-                        ).optional()
-                    })
-                )
+                environments: z.array(EnvironmentSchema)
             }),
             204: z.object({
                 error: z.boolean(),

@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { prisma } from "../lib/prisma";
+import { permitionsStringToArray } from "../utils/permitions-handler";
 
 class EnvironmentService {
     static async get(userOwner?: string, id?: number, name?: string) {
@@ -60,7 +61,7 @@ class EnvironmentService {
                         userPartner: s.userPartner,
                         userPartnerEmail: s.userPartnerRel.email,
                         userPartnerName: s.userPartnerRel.name,
-                        permitions: s.permitions
+                        permitions: permitionsStringToArray(s.permitions)
                     }
                 })
             }
@@ -75,7 +76,7 @@ class EnvironmentService {
                 "userOwnerName": e.userOwnerRel.name,
                 "createdAt": e.environmentRel.createdAt,
                 "active": e.active,
-                "permitions": e.permitions,
+                "permitions": permitionsStringToArray(e.permitions),
             }
         })
 

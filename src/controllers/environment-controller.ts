@@ -14,7 +14,6 @@ class EnvironmentController {
         if (!tempUser) return res.status(400).send({ error: true, message: 'Usuário não encontrado' });
 
         const environments = await EnvironmentService.get(tempUser.payload.id, id ? Number(id) : undefined);
-
         if (environments.length === 0) return res.status(204).send({ error: false, message: 'Não foram encontrados ambientes ativos para o usuário', environments: [] });
         const environmentWithPermitions = environments.map((e: any) => {
             function convertPermitionsInToArray(permitions: string) {

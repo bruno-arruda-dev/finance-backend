@@ -59,6 +59,7 @@ app.register(EnvironmentRoutes.post);
 app.register(EnvironmentRoutes.put);
 app.register(EnvironmentRoutes.delete);
 
+app.register(EnvironmentShareRoutes.get);
 app.register(EnvironmentShareRoutes.post);
 
 app.register(HealthRoutes.get);
