@@ -39,7 +39,18 @@ class EnvironmentService {
             },
             include: {
                 userOwnerRel: true,
-                environmentRel: true,
+                environmentRel: {
+                    include: {
+                        EnvironmentShare: {
+                            where: {
+                                active: true,
+                            },
+                            include: {
+                                userPartnerRel: true
+                            }
+                        }
+                    }
+                },
             }
         })
 
@@ -77,6 +88,18 @@ class EnvironmentService {
                 "createdAt": e.environmentRel.createdAt,
                 "active": e.active,
                 "permitions": permitionsStringToArray(e.permitions),
+                share: e.environmentRel.EnvironmentShare.map(s => {
+                    return {
+                        id: s.id,
+                        createdAt: s.createdAt,
+                        accepted: s.accepted,
+                        active: s.active,
+                        userPartner: s.userPartner,
+                        userPartnerEmail: s.userPartnerRel.email,
+                        userPartnerName: s.userPartnerRel.name,
+                        permitions: permitionsStringToArray(s.permitions)
+                    }
+                })
             }
         })
 

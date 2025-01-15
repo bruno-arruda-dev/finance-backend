@@ -100,8 +100,6 @@ class EnvironmentShareController {
             if (!savedPermitions.includes('compartilhar')) return res.status(401).send({ error: true, message: ' Vocé nao tem permissão para compartilhar este ambiente' })
             const sharingPermitions = permitionsStringToArray(data.permitions)
             const sharePermitionsOnlyIfHavePermition = sharingPermitions.filter(permition => savedPermitions.includes(permition))
-            console.log(sharePermitionsOnlyIfHavePermition)
-
             const share = await EnvironmentShareService.post({ ...data, permitions: permitionsArrayToString(sharePermitionsOnlyIfHavePermition) })
 
             environmentSuccessReply.share = [{
